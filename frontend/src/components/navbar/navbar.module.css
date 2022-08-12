@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  background-color: red;
+}
+
+.links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}

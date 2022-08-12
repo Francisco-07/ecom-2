@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+}
+
+.imgContainer img {
+  flex: 1;
+  width: 100%;
+}
+.infoContainer {
+  flex: 1;
+}
+.addToCartBox {
+  flex: 1;
+}
+.btn {
+}

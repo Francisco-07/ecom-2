@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+}
+
+.itemsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.product {
+  flex: 0.7;
+  display: flex;
+  gap: 15px;
+}
+
+.box {
+  flex: 0.3;
+}
+
+.imgContainer img {
+  width: 200px;
+  height: 200px;
+}
