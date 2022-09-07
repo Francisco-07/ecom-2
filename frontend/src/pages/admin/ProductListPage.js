@@ -8,6 +8,9 @@ import {
 } from '../../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../../constants/productConstants'
 import Paginate from '../../components/pagination/Pagination'
+import styled from './adminPages.module.css'
+import Spinner from '../../components/spinner/Spinner'
+import Error from '../../components/error/Error'
 
 const ProductListPage = () => {
   const dispatch = useDispatch()
@@ -66,60 +69,64 @@ const ProductListPage = () => {
   }
 
   return (
-    <>
-      <div>
+    <div className={styled.container}>
+      <div className={styled.wrapper}>
         <div>
-          <h1>Products</h1>
+          <div>
+            <h1>Productos</h1>
+          </div>
+          <div>
+            <button onClick={createProductHandler}>Crear Producto</button>
+          </div>
         </div>
-        <div>
-          <button onClick={createProductHandler}>Create Product</button>
-        </div>
+        {loadingDelete && <Spinner />}
+        {errorDelete && <Error>{errorDelete}</Error>}
+        {loadingCreate && <Spinner />}
+        {errorCreate && <Error>{errorCreate}</Error>}
+        {loading ? (
+          <Spinner />
+        ) : error ? (
+          <Error>{error}</Error>
+        ) : (
+          <>
+            <div className={styled.tableContainer}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>PRECIO</th>
+                    <th>CATEGORIA</th>
+                    <th>MARCA</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product._id}>
+                      <td>{product._id}</td>
+                      <td>{product.name}</td>
+                      <td>${product.price}</td>
+                      <td>{product.category}</td>
+                      <td>{product.brand}</td>
+                      <td>
+                        <Link to={`/admin/product/${product._id}/edit`}>
+                          <button>Editar</button>
+                        </Link>
+                        <button onClick={() => deleteHandler(product._id)}>
+                          Borrar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Paginate pages={pages} page={page} isAdmin={true} />
+          </>
+        )}
       </div>
-      {loadingDelete && <div>loading delete</div>}
-      {errorDelete && <div>{errorDelete}</div>}
-      {loadingCreate && <div>loading create</div>}
-      {errorCreate && <div>{errorCreate}</div>}
-      {loading ? (
-        <div>loading</div>
-      ) : error ? (
-        <div>{error}</div>
-      ) : (
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <Link to={`/admin/product/${product._id}/edit`}>
-                      <button>edit</button>
-                    </Link>
-                    <button onClick={() => deleteHandler(product._id)}>
-                      delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Paginate pages={pages} page={page} isAdmin={true} />
-        </>
-      )}
-    </>
+    </div>
   )
 }
 

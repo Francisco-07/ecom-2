@@ -1,0 +1,19 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--small-gap);
+}
+
+.page {
+  border: 1px solid black;
+  border-radius: 50%;
+  opacity: 0.6;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page:hover {
+  opacity: 1;
+}

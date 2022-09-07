@@ -12,6 +12,9 @@ import {
   payOrder,
   deliverOrder,
 } from '../../actions/orderActions'
+import styled from './orderPage.module.css'
+import Spinner from '../../components/spinner/Spinner'
+import Error from '../../components/error/Error'
 
 const OrderScreen = () => {
   const { id } = useParams()
@@ -56,7 +59,7 @@ const OrderScreen = () => {
       document.body.appendChild(script)
     }
 
-    if (!order || successPay || successDeliver) {
+    if (!order || successPay || successDeliver || order._id !== id) {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(id))
@@ -79,108 +82,115 @@ const OrderScreen = () => {
   }
 
   return loading ? (
-    <div />
+    <Spinner />
   ) : error ? (
-    <div>{error}</div>
+    <Error>{error}</Error>
   ) : (
-    <>
-      <h1>Order {order._id}</h1>
-      <div>
-        <div>
+    <div className={styled.container}>
+      <div className={styled.wrapper}>
+        <div className={orderDetails}>
+          <h2>Orden {order._id}</h2>
           <div>
             <div>
-              <h2>Shipping</h2>
-              <p>
-                <strong>Name: </strong> {order.user.name}
-              </p>
-              <p>
-                <strong>Email: </strong>{' '}
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
-              </p>
-              <p>
-                <strong>Address:</strong>
-                {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
-                {order.shippingAddress.postalCode},{' '}
-                {order.shippingAddress.country}
-              </p>
-              {order.isDelivered ? (
-                <div>Delivered on {order.deliveredAt}</div>
-              ) : (
-                <div>Not Delivered</div>
-              )}
-            </div>
-
-            <div>
-              <h2>Payment Method</h2>
-              <p>
-                <strong>Method: </strong>
-                {order.paymentMethod}
-              </p>
-              {order.isPaid ? (
-                <div>Paid on {order.paidAt}</div>
-              ) : (
-                <div>Not Paid</div>
-              )}
-            </div>
-
-            <div>
-              <h2>Order Items</h2>
-              {order.orderItems.length === 0 ? (
-                <div>Order is empty</div>
-              ) : (
+              <div>
                 <div>
-                  {order.orderItems.map((item, index) => (
-                    <div key={index}>
-                      <div>
-                        <div>
-                          <img src={item.image} alt={item.name} fluid rounded />
-                        </div>
-                        <div>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                        </div>
-                        <div>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  <h2>Envio</h2>
+                  <p>
+                    <strong>Nombre: </strong> {order.user.name}
+                  </p>
+                  <p>
+                    <strong>Email: </strong>{' '}
+                    <a href={`mailto:${order.user.email}`}>
+                      {order.user.email}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Direccion:</strong>
+                    {order.shippingAddress.address},{' '}
+                    {order.shippingAddress.city}{' '}
+                    {order.shippingAddress.postalCode},{' '}
+                    {order.shippingAddress.country}
+                  </p>
+                  {order.isDelivered ? (
+                    <div>Se envio el {order.deliveredAt}</div>
+                  ) : (
+                    <div>No enviado</div>
+                  )}
                 </div>
-              )}
+                <hr />
+                <div>
+                  <h2>Metodo de Pago</h2>
+                  <p>
+                    <strong>Metodo: </strong>
+                    {order.paymentMethod}
+                  </p>
+                  {order.isPaid ? (
+                    <div>Pago el {order.paidAt}</div>
+                  ) : (
+                    <div>No Pago</div>
+                  )}
+                </div>
+                <hr />
+                <div>
+                  <h2>Productos de la Orden</h2>
+                  {order.orderItems.length === 0 ? (
+                    <div>No hay productos</div>
+                  ) : (
+                    <div>
+                      {order.orderItems.map((item, index) => (
+                        <>
+                          <div key={index} className={styled.itemContainer}>
+                            <div className={styled.imgContainer}>
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                fluid
+                                rounded
+                              />
+                            </div>
+                            <div>
+                              <Link to={`/product/${item.product}`}>
+                                {item.name}
+                              </Link>
+                            </div>
+                            <div>
+                              {item.qty} x ${item.price} = $
+                              {item.qty * item.price}
+                            </div>
+                          </div>
+                          <hr />
+                        </>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div>
-          <div>
+          <div className={styled.orderSummary}>
             <div>
               <div>
-                <h2>Order Summary</h2>
+                <h2>Resumen de Orden</h2>
               </div>
+              <hr />
               <div>
-                <div>
-                  <div>Items</div>
-                  <div>${order.itemsPrice}</div>
-                </div>
+                Productos: <strong>${order.itemsPrice}</strong>
               </div>
+              <hr />
               <div>
-                <div>
-                  <div>Shipping</div>
-                  <div>${order.shippingPrice}</div>
-                </div>
+                Envio: <strong>${order.shippingPrice}</strong>
               </div>
+              <hr />
               <div>
-                <div>
-                  <div>Tax</div>
-                  <div>${order.taxPrice}</div>
-                </div>
+                Impuestos: <strong>${order.taxPrice}</strong>
               </div>
+              <hr />
               <div>
-                <div>
-                  <div>Total</div>
-                  <div>${order.totalPrice}</div>
-                </div>
+                Total: <strong>${order.totalPrice}</strong>
               </div>
+              <hr />
               {!order.isPaid && (
                 <div>
                   {loadingPay && <div>loading</div>}
@@ -194,21 +204,21 @@ const OrderScreen = () => {
                   )}
                 </div>
               )}
-              {loadingDeliver && <div>loading</div>}
+              {loadingDeliver && <Spinner />}
               {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                 <button
                   type='button'
                   className='btn btn-block'
                   onClick={deliverHandler}
                 >
-                  Mark As Delivered
+                  Marcar como Enviada
                 </button>
               )}
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

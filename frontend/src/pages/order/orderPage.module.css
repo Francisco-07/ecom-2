@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--large-gap);
+}
+.wrapper {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  gap: var(--large-gap);
+  flex-wrap: wrap;
+}
+
+.itemContainer {
+  display: flex;
+}
+
+.orderSummary {
+  border: 1px solid var(--secondary-color);
+  padding: var(--padding);
+}
+
+.imgContainer img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}

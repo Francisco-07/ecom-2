@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: var(--secondary-color);
+  padding: 40px 0;
+  gap: var(--medium-gap);
+  margin-top: var(--large-gap);
+  width: 100%;
+  bottom: 0;
+}
+.container svg {
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.icon {
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.icon:hover {
+  opacity: 1;
+}

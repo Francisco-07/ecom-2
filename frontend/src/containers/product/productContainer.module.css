@@ -2,13 +2,20 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: var(--large-gap);
 }
 
 .wrapper {
-  width: 80%;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: stretch;
   gap: 10px;
   flex-wrap: wrap;
+}
+@media (min-width: 670px) {
+  .wrapper {
+    flex-direction: row;
+  }
 }

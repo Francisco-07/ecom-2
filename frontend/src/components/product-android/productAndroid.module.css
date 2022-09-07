@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  padding: 0 0.6rem;
+}
+
+.wrapper {
+  display: flex;
+  gap: var(--small-gap);
+}
+
+.imgContainer img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+@media (min-width: 670px) {
+  .product {
+    display: none;
+  }
+}

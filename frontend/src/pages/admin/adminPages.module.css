@@ -1,0 +1,13 @@
+.tableContainer {
+  margin-top: var(--medium-gap);
+  overflow-x: auto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--medium-gap);
+}
+.wrapper {
+  width: 80%;
+}

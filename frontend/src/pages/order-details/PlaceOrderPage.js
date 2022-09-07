@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Checkout from '../../components/checkout/Checkout'
 import { Link } from 'react-router-dom'
 import { createOrder } from '../../actions/orderActions'
+import { USER_DETAILS_RESET } from '../../constants/userConstants'
+import { ORDER_CREATE_RESET } from '../../constants/orderConstants'
 import { useNavigate } from 'react-router-dom'
+import styled from './placeOrderPage.module.css'
 
 const OrderDetailsPage = () => {
   const cart = useSelector((state) => state.cart)
@@ -28,11 +31,13 @@ const OrderDetailsPage = () => {
   ).toFixed(2)
 
   const orderCreate = useSelector((state) => state.orderCreate)
-  const { order, success, error } = orderCreate
+  const { order, success } = orderCreate
 
   useEffect(() => {
     if (success) {
       navigate(`/order/${order._id}`)
+      dispatch({ type: USER_DETAILS_RESET })
+      dispatch({ type: ORDER_CREATE_RESET })
     }
     // eslint-disable-next-line
   }, [success])
@@ -53,80 +58,84 @@ const OrderDetailsPage = () => {
   return (
     <>
       <Checkout step1 step2 step3 step4 />
-      <div>
-        <h2>Shipping</h2>
-        <p>
-          <strong>Address:</strong>
-          {cart.shippingAddress.address}, {cart.shippingAddress.city}{' '}
-          {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
-        </p>
-      </div>
-      <div>
-        <h2>Payment Method</h2>
-        <strong>Method: </strong>
-        {cart.paymentMethod}
-      </div>
-      <div>
-        {cart.cartItems.length === 0 ? (
-          <div>Your cart is empty</div>
-        ) : (
-          <div>
-            {cart.cartItems.map((item, index) => (
-              <div key={index}>
+      <div className={styled.container}>
+        <div className={styled.wrapper}>
+          <div className={styled.infoContainer}>
+            <div>
+              <h2>Envio</h2>
+              <p>
+                <strong>Direccion</strong>
+                {cart.shippingAddress.address}, {cart.shippingAddress.city}
+                {cart.shippingAddress.postalCode},{cart.shippingAddress.country}
+              </p>
+            </div>
+            <hr />
+            <div>
+              <h2>Metodo de Pago</h2>
+              <strong>Metodo: </strong>
+              {cart.paymentMethod}
+            </div>
+            <hr />
+            <div>
+              {cart.cartItems.length === 0 ? (
+                <div>Tu carrito esta vacio</div>
+              ) : (
                 <div>
-                  <div>
-                    <img src={item.image} alt={item.name} />
-                  </div>
-                  <div>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                  </div>
-                  <div>
-                    {item.qty} x ${item.price} = ${item.qty * item.price}
-                  </div>
+                  {cart.cartItems.map((item, index) => (
+                    <div key={index}>
+                      <div className={styled.itemContainer}>
+                        <div className={styled.imgContainer}>
+                          <img src={item.image} alt={item.name} />
+                        </div>
+                        <div>
+                          <Link to={`/product/${item.product}`}>
+                            {item.name}
+                          </Link>
+                        </div>
+                        <div>
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                        </div>
+                      </div>
+                      <hr />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className={styled.orderContainer}>
+            <div className={styled.orderBox}>
+              <div>
+                <div>
+                  <h2>Resumen de Orden</h2>
+                </div>
+                <hr />
+                <div>
+                  <div>Productos ${cart.itemsPrice}</div>
+                </div>
+                <hr />
+                <div>
+                  <div>Envio ${cart.shippingPrice}</div>
+                </div>
+                <hr />
+                <div>
+                  <div>Impuestos ${cart.taxPrice}</div>
+                </div>
+                <hr />
+                <div>
+                  <div>Total ${cart.totalPrice}</div>
+                </div>
+                <hr />
+                <div>
+                  <button
+                    type='button'
+                    disabled={cart.cartItems === 0}
+                    onClick={placeOrderHandler}
+                  >
+                    Pagar Orden
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-      <div>
-        <div>
-          <div>
-            <div>
-              <h2>Order Summary</h2>
-            </div>
-            <div>
-              <div>
-                <div>Items</div>
-                <div>${cart.itemsPrice}</div>
-              </div>
-            </div>
-            <div>
-              <div>
-                <div>Shipping</div>
-                <div>${cart.shippingPrice}</div>
-              </div>
-            </div>
-            <div>
-              <div>
-                <div>Tax</div>
-                <div>${cart.taxPrice}</div>
-              </div>
-            </div>
-            <div>
-              <div>
-                <div>Total</div>
-                <div>${cart.totalPrice}</div>
-              </div>
-            </div>
-            <div>
-              <button
-                type='button'
-                disabled={cart.cartItems === 0}
-                onClick={placeOrderHandler}
-              >
-                Place Order
-              </button>
             </div>
           </div>
         </div>

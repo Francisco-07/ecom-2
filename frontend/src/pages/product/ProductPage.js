@@ -8,6 +8,9 @@ import {
   createProductReview,
 } from '../../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../../constants/productConstants'
+import Spinner from '../../components/spinner/Spinner'
+import Error from '../../components/error/Error'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 
 const ProductPage = () => {
   const [rating, setRating] = useState(0)
@@ -32,7 +35,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     if (successProductReview) {
-      alert('Review Submitted!')
+      alert('Comentario Enviado')
       setRating(0)
       setComment('')
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
@@ -57,197 +60,127 @@ const ProductPage = () => {
   return (
     <>
       {loading ? (
-        <div>loading</div>
+        <Spinner />
       ) : error ? (
-        <div>error</div>
+        <Error>{error}</Error>
       ) : (
-        <>
-          <div>
-            <div>
-              <img src={product.image} alt={product.name} />
-            </div>
-            <div>
-              <div>
-                <div>
-                  <h3>{product.name}</h3>
-                </div>
-                <div>
-                  <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                  />
-                </div>
-                <div>Price: ${product.price}</div>
-                <div>Description: {product.description}</div>
+        <div className={styled.container}>
+          <div className={styled.wrapper}>
+            <div className={styled.productInfo}>
+              <div className={styled.imgContainer}>
+                <img src={product.image} alt={product.name} />
               </div>
-            </div>
-            <div>
-              <div>
+              <div className={styled.infoContainer}>
                 <div>
                   <div>
-                    <div>
-                      <div>Price:</div>
-                      <div>
-                        <strong>${product.price}</strong>
-                      </div>
-                    </div>
+                    <h3>{product.name}</h3>
                   </div>
-
+                  <hr />
                   <div>
-                    <div>
-                      <div>Status:</div>
-                      <div>
-                        {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
-                      </div>
-                    </div>
+                    <Rating
+                      value={product.rating}
+                      text={`${product.numReviews} reviews`}
+                    />
                   </div>
+                  <hr />
+                  <div>Precio: ${product.price}</div>
+                  <hr />
+                  <div> {product.description}</div>
+                </div>
+              </div>
 
+              <div className={styled.addToCart}>
+                <div className={styled.cartBox}>
+                  <div>
+                    Precio: <strong>${product.price}</strong>
+                  </div>
+                  <hr />
+                  <div>
+                    Estado:
+                    {product.countInStock > 0 ? 'Hay Stock' : 'Sin Stock'}
+                  </div>
+                  <hr />
                   {product.countInStock > 0 && (
                     <div>
-                      <div>
-                        <div>Qty</div>
-                        <div>
-                          <select
-                            value={qty}
-                            onChange={(e) => setQty(e.target.value)}
-                          >
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
-                          </select>
-                        </div>
-                      </div>
+                      Cantidad{' '}
+                      <select
+                        value={qty}
+                        onChange={(e) => setQty(e.target.value)}
+                      >
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   )}
-
+                  <hr />
                   <div>
                     <button
+                      className={styled.icon}
                       onClick={addToCartHandler}
                       type='button'
                       disabled={product.countInStock === 0}
                     >
-                      Add To Cart
+                      <AiOutlineShoppingCart />
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div>
-              <h2>Reviews</h2>
-              {product.reviews.length === 0 && <div>No Reviews</div>}
-              <div>
-                {product.reviews.map((review) => (
-                  <div key={review._id}>
-                    <strong>{review.name}</strong>
-                    <Rating value={review.rating} />
-                    <p>{review.createdAt.substring(0, 10)}</p>
-                    <p>{review.comment}</p>
-                  </div>
-                ))}
+            <div className={styled.review}>
+              <div className={styled.reviewContainer}>
+                <h2>comentarios</h2>
+                {product.reviews.length === 0 && <div>No hay comentario</div>}
                 <div>
-                  <h2>Write a Customer Review</h2>
-                  {errorProductReview && <div>{errorProductReview}</div>}
-                  {userInfo ? (
-                    <form onSubmit={submitHandler}>
-                      <div>
-                        <div>Rating</div>
+                  {product.reviews.map((review) => (
+                    <div key={review._id}>
+                      <strong>{review.name}</strong>
+                      <Rating value={review.rating} />
+                      <p>{review.createdAt.substring(0, 10)}</p>
+                      <p>{review.comment}</p>
+                    </div>
+                  ))}
+                  <div>
+                    <h2>Dejanos un comentario</h2>
+                    {errorProductReview && <Error>{errorProductReview}</Error>}
+                    {userInfo ? (
+                      <form onSubmit={submitHandler} className={styled.form}>
                         <select
+                          name='rating'
                           value={rating}
                           onChange={(e) => setRating(e.target.value)}
                         >
-                          <option value=''>Select...</option>
-                          <option value='1'>1 - Poor</option>
-                          <option value='2'>2 - Fair</option>
-                          <option value='3'>3 - Good</option>
-                          <option value='4'>4 - Very Good</option>
-                          <option value='5'>5 - Excellent</option>
+                          <option value=''>Seleccionar</option>
+                          <option value='1'>1 - Muy malo</option>
+                          <option value='2'>2 - Malo</option>
+                          <option value='3'>3 - Bueno</option>
+                          <option value='4'>4 - Muy bueno</option>
+                          <option value='5'>5 - Excelente</option>
                         </select>
-                      </div>
-                      <div>
-                        <div>Comment</div>
                         <textarea
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
-                        ></textarea>
+                        />
+                        <button type='submit'>Publicar</button>
+                      </form>
+                    ) : (
+                      <div>
+                        <Link to='/login'>
+                          <strong>Ingrese</strong>
+                        </Link>{' '}
+                        para dejar un comentario
                       </div>
-                      <button type='submit'>Submit</button>
-                    </form>
-                  ) : (
-                    <div>
-                      Please <Link to='/login'>sign in</Link> to write a review{' '}
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   )
 }
 export default ProductPage
-
-// (
-//   <div className={styled.container}>
-//     <div className={styled.imgContainer}>
-//       <img src={product.image} alt='test' />
-//     </div>
-//     <div className={styled.infoContainer}>
-//       <h2>{product.name}</h2>
-//       <hr />
-//       <Rating
-//         value={product.rating}
-//         text={`${product.numReviews} ${
-//           product.numReviews === 0
-//             ? 'No Reviews'
-//             : product.numReviews === 1
-//             ? 'Review'
-//             : 'Reviews'
-//         }`}
-//       />
-//       <hr />
-//       <p>{product.price}</p>
-//       <hr />
-//       <p>{product.description}</p>
-//     </div>
-//     <div className={styled.addToCartBox}>
-//       <div>
-//         <h2>Price</h2>
-//         <p>{product.price}</p>
-//       </div>
-//       <div>
-//         <h2>Status</h2>
-//         <p>{product.countInStock}</p>
-//       </div>
-//       {product.countInStock > 0 && (
-//         <div>
-//           <select
-//             name='select'
-//             value={qty}
-//             onChange={(e) => setQty(e.target.value)}
-//           >
-//             {[...Array(product.countInStock).keys()].map((x) => (
-//               <option key={x + 1} value={x + 1}>
-//                 {x + 1}
-//               </option>
-//             ))}
-//           </select>
-//         </div>
-//       )}
-//       <button
-//         className={styled.btn}
-//         disabled={product.countInStock === 0}
-//         onClick={addToCartHandler}
-//       >
-//         Add to cart
-//       </button>
-//     </div>
-//   </div>
-// )

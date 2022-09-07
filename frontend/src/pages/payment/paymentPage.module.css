@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  gap: var(--medium-gap);
+}
+
+.payment {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}

@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--large-gap);
+}
+
+.form {
+  background-color: var(--light-yello);
+  padding: 45px 60px;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--small-gap);
+}

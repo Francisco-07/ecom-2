@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--large-gap);
+}
+.wrapper {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--large-gap);
+}
+
+.itemContainer {
+  display: flex;
+}
+
+.orderContainer {
+  display: flex;
+  flex-direction: column;
+}
+.orderBox {
+  border: 1px solid var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--padding);
+}
+.imgContainer img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}

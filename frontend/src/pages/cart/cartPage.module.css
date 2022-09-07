@@ -1,23 +1,61 @@
 .container {
   display: flex;
+  justify-content: center;
+  margin-top: var(--large-gap);
 }
 
-.itemsContainer {
+.wrapper {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  width: 80%;
+  justify-content: space-evenly;
+  gap: 3rem 0;
 }
-
+.emptyCart {
+  margin-top: var(--large-gap);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
 .product {
-  flex: 0.7;
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 5px;
+}
+
+.imgContainer {
+  flex: 0.2;
+}
+.productInfo {
+  flex: 0.6;
+}
+.amount {
+  flex: 0.1;
+}
+
+.amount select {
+  width: 40px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  flex: 0.1;
+}
+.icon:hover {
+  transform: scale(1.05);
+}
+.icon svg {
+  font-size: 1.4rem;
+  cursor: pointer;
 }
 
 .box {
-  flex: 0.3;
+  flex: 0.2;
+  border: 1px solid var(--secondary-color);
+  padding: var(--padding);
 }
 
 .imgContainer img {
-  width: 200px;
-  height: 200px;
+  width: 70px;
+  height: 70px;
 }
