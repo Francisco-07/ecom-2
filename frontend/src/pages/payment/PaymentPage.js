@@ -1,6 +1,6 @@
 import Checkout from '../../components/checkout/Checkout'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { savePaymentMethod } from '../../actions/cartAtions'
 import { useNavigate } from 'react-router-dom'
 import styled from './paymentPage.module.css'
