@@ -7,11 +7,7 @@ import styled from './paymentPage.module.css'
 
 const PaymentPage = () => {
   const cart = useSelector((state) => state.cart)
-  const { shippingAddress } = cart
 
-  // if (!shippingAddress) {
-  //   history.push('/shipping')
-  // }
   const navigate = useNavigate()
 
   const [paymentMethod, setPaymentMethod] = useState('PayPal')

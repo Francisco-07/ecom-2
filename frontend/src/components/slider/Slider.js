@@ -23,7 +23,7 @@ const Slider = () => {
 
   useEffect(() => {
     dispatch(listTopProducts())
-  }, [dispatch])
+  }, [dispatch, products.length])
 
   useEffect(() => {
     const timer = setTimeout(() => {
