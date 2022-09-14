@@ -105,7 +105,7 @@ const OrderScreen = () => {
                     </a>
                   </p>
                   <p>
-                    <strong>Direccion:</strong>
+                    <strong>Direccion: </strong>
                     {order.shippingAddress.address},{' '}
                     {order.shippingAddress.city}{' '}
                     {order.shippingAddress.postalCode},{' '}
@@ -193,9 +193,9 @@ const OrderScreen = () => {
               <hr />
               {!order.isPaid && (
                 <div>
-                  {loadingPay && <div>loading</div>}
+                  {loadingPay && <Spinner />}
                   {!sdkReady ? (
-                    <div>loading</div>
+                    <Spinner />
                   ) : (
                     <PayPalButton
                       amount={order.totalPrice}

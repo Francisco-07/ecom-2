@@ -64,7 +64,7 @@ const OrderDetailsPage = () => {
             <div>
               <h2>Envio</h2>
               <p>
-                <strong>Direccion</strong>
+                <strong>Direccion: </strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city}
                 {cart.shippingAddress.postalCode},{cart.shippingAddress.country}
               </p>
