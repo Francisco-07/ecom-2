@@ -15,6 +15,7 @@ import ProductListPage from './pages/admin/ProductListPage'
 import OrderListPage from './pages/admin/OrderListPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/navbar/Navbar'
+import SearchPage from './pages/searchpage/SearchPage'
 
 function App() {
   return (
@@ -50,11 +51,11 @@ function App() {
         })} */}
 
         <Route path='/' element={<HomePage />} exact />
-        <Route path='/search/:keyword' element={<HomePage />} exact />
-        <Route path='/page/:pageNumber' element={<HomePage />} exact />
+        <Route path='/search/:keyword' element={<SearchPage />} exact />
+        <Route path='/page/:pageNumber' element={<SearchPage />} exact />
         <Route
           path='/search/:keyword/page/:pageNumber'
-          element={<HomePage />}
+          element={<SearchPage />}
           exact
         />
       </Routes>

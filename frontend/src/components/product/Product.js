@@ -26,7 +26,7 @@ const Product = ({ product }) => {
       </div>
       <div className={styled.wrapper}>
         <div className={styled.imgContainer}>
-          <img src={product.image} alt='alt' />
+          <img src={product.image} alt='alt' loading='lazy' />
         </div>
       </div>
     </div>
