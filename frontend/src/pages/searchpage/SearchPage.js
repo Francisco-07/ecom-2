@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../../actions/productActions'
 import { useParams } from 'react-router-dom'
 import Paginate from '../../components/pagination/Pagination'
-import Slider from '../../components/slider/Slider'
+
 import Footer from '../../components/footer/Footer'
 import Error from '../../components/error/Error'
 import Spinner from '../../components/spinner/Spinner'
